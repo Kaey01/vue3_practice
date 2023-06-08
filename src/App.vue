@@ -5,6 +5,4 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import SvgIcon from '@/components/SvgIcon/index.vue'
-</script>
+<script setup lang="ts"></script>

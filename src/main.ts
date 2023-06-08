@@ -16,4 +16,6 @@ import 'virtual:svg-icons-register'
 import gloablComponent from './components/index'
 app.use(gloablComponent)
 
+import '@/styles/index.scss'
+
 app.mount('#app')

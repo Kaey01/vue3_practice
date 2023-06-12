@@ -1,7 +1,4 @@
 <template>
-  <div>
-    <router-view />
-  </div>
+  <div>login</div>
 </template>
-
 <script setup lang="ts"></script>

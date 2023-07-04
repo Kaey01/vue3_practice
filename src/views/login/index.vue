@@ -3,16 +3,21 @@
     <el-row>
       <el-col :span="12" :xs="0"></el-col>
       <el-col :span="12" :xs="24">
-        <el-form class="login_form">
+        <el-form
+          class="login_form"
+          :model="loginForm"
+          :rules="rules"
+          ref="loginForms"
+        >
           <h1>Hello</h1>
           <h2>欢迎来到硅谷甄选</h2>
-          <el-form-item>
+          <el-form-item prop="username">
             <el-input
               :prefix-icon="User"
               v-model="loginForm.username"
             ></el-input>
           </el-form-item>
-          <el-form-item>
+          <el-form-item prop="password">
             <el-input
               type="password"
               :prefix-icon="Lock"
@@ -40,10 +45,14 @@
 import { User, Lock } from '@element-plus/icons-vue'
 import { reactive, ref } from 'vue'
 import useUserStore from '@/store/modules/user'
-const useStore = useUserStore()
 import { useRouter } from 'vue-router'
 import { ElNotification } from 'element-plus'
 import { getTime } from '@/utils/time'
+
+const useStore = useUserStore()
+
+//获取el-form
+const loginForms = ref()
 
 const $router = useRouter()
 
@@ -52,6 +61,9 @@ const loginForm = reactive({ username: 'admin', password: '111111' })
 const loading = ref(false)
 
 const login = async () => {
+  // 保证表单校验通过再发请求
+  await loginForms.value.validate()
+
   loading.value = true
   try {
     await useStore.userLogin(loginForm)
@@ -69,6 +81,34 @@ const login = async () => {
       message: (error as Error).message,
     })
   }
+}
+// 自定义校验规则
+const validatorUserName = (rule: any, value: any, callback: any) => {
+  if (value.length >= 5) {
+    callback()
+  } else {
+    callback(new Error('用户名长度至少5位'))
+  }
+}
+const validatorPassWord = (rule: any, value: any, callback: any) => {
+  if (value.length >= 6) {
+    callback()
+  } else {
+    callback(new Error('密码长度至少6位'))
+  }
+}
+// 定义表单校验需要配置的对象
+const rules = {
+  username: [
+    // { required: true, message: '请输入用户名', trigger: 'blur' },
+    // { min: 6, max: 10, message: '用户名长度位6~10位', trigger: 'blur' },
+    { trigger: 'change', validator: validatorUserName },
+  ],
+  password: [
+    // { required: true, message: '请输入密码', trigger: 'blur' },
+    // { min: 6, max: 12, message: '密码长度为6~12位', trigger: 'blur' },
+    { trigger: 'change', validator: validatorPassWord },
+  ],
 }
 </script>
 

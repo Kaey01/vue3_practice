@@ -13,7 +13,7 @@
     <div class="layout_tabbar"></div>
     <!-- 内容展示-->
     <div class="layout_main">
-      <div style="height: 1000px"></div>
+      <Main></Main>
     </div>
   </div>
 </template>
@@ -22,6 +22,7 @@
 import Logo from './logo/index.vue'
 import Menu from './menu/index.vue'
 import useUserStore from '@/store/modules/user'
+import Main from '@/layout/main/index.vue'
 let userStore = useUserStore()
 </script>
 

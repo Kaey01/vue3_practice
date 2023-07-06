@@ -84,6 +84,7 @@ const login = async () => {
 }
 // 自定义校验规则
 const validatorUserName = (rule: any, value: any, callback: any) => {
+  console.log(rule)
   if (value.length >= 5) {
     callback()
   } else {
@@ -91,6 +92,7 @@ const validatorUserName = (rule: any, value: any, callback: any) => {
   }
 }
 const validatorPassWord = (rule: any, value: any, callback: any) => {
+  console.log(rule)
   if (value.length >= 6) {
     callback()
   } else {

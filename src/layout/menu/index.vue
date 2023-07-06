@@ -1,10 +1,16 @@
 <template>
   <div>
-    <template v-for="(item, index) in menuList" :key="item.path">
+    <template v-for="item in menuList" :key="item.path">
       <template v-if="!item.children">
-        <el-menu-item v-if="!item.meta.hidden" :index="item.path">
+        <el-menu-item
+          v-if="!item.meta.hidden"
+          :index="item.path"
+          @click="goRoute"
+        >
           <template #title>
-            <span>图标·</span>
+            <el-icon>
+              <component :is="item.meta.icon"></component>
+            </el-icon>
             <span>{{ item.meta.title }}</span>
           </template>
         </el-menu-item>
@@ -13,9 +19,12 @@
         <el-menu-item
           v-if="!item.children[0].meta.hidden"
           :index="item.children[0].path"
+          @click="goRoute"
         >
           <template #title>
-            <span>图标·</span>
+            <el-icon>
+              <component :is="item.children[0].meta.icon"></component>
+            </el-icon>
             <span>{{ item.children[0].meta.title }}</span>
           </template>
         </el-menu-item>
@@ -25,7 +34,9 @@
         v-if="item.children && item.children.length > 1"
       >
         <template #title>
-          <span>图标·</span>
+          <el-icon>
+            <component :is="item.meta.icon"></component>
+          </el-icon>
           <span>{{ item.meta.title }}</span>
         </template>
         <Menu :menuList="item.children"></Menu>
@@ -36,9 +47,15 @@
 
 <script setup lang="ts">
 defineProps(['menuList'])
+import { useRouter } from 'vue-router'
+const $router = useRouter()
+const goRoute = (e: any) => {
+  $router.push(e.index)
+}
 </script>
 <script lang="ts">
 export default {
+  // eslint-disable-next-line vue/no-reserved-component-names
   name: 'Menu',
 }
 </script>
